@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, ScrollView, Text, StyleSheet, StatusBar } from "react-native";
 import BottomNavigation from "./BottomNavigation";
 import * as kjv from "../assets/assets/bibles/kjv_new.json";
+import * as asv from "../assets/assets/bibles/asv_new.json";
 
 export default function MainReader() {
   const bookTitles = {
@@ -11,9 +12,21 @@ export default function MainReader() {
   };
   const [bookHeader, setBookHeader] = useState(""); // Initialize state for chapter content
   const [chapterContent, setChapterContent] = useState(""); // Initialize state for chapter content
+  const [currentTranslation, setCurrentTranslation] = useState(kjv); // Initlialize state for translation, default is KJV
+  const [currentTranslationName, setCurrentTranslationName] = useState("kjv");
+  const [currentChapterBook, setCurrentChapterBook] = useState(1);
+  const [currentChapterState, setCurrentChapterState] = useState(1);
+
+  function setTranslation(translation, translationName) {
+    setCurrentTranslation(translation);
+    setCurrentTranslationName(translationName);
+    fetchBibleContent(currentChapterBook, currentChapterState);
+  }
 
   function fetchBibleContent(bookNumber, chapterNumber) {
-    let jsonData = kjv;
+    setCurrentChapterBook(bookNumber);
+    setCurrentChapterState(chapterNumber);
+    let jsonData = currentTranslation;
     let currentChapter = jsonData[bookNumber][chapterNumber];
 
     // Combine chapter content into a single string
@@ -29,10 +42,13 @@ export default function MainReader() {
 
   return (
     <ScrollView style={readerStyles.scrollView}>
+      <Button title="Genesis" onPress={() => fetchBibleContent(1, 1)} />
+      <Button title="ASV" onPress={() => setTranslation(asv, "asv")} />
+      <Button title="KJV" onPress={() => setTranslation(kjv, "kjv")} />
+      <Text style={readerStyles.header}>{currentTranslationName}</Text>
       <Text style={readerStyles.header}>{bookHeader}</Text>
       <Text style={readerStyles.text}>{chapterContent}</Text>
       <BottomNavigation />
-      <Button title="Genesis" onPress={() => fetchBibleContent(1, 1)} />
     </ScrollView>
   );
 }
