@@ -6,6 +6,7 @@ import * as kjv from "../assets/assets/bibles/kjv_new.json";
 export default function MainReader() {
   const bookTitles = {
     1: "Genesis",
+    // add other numbers for each book
     2: "",
   };
   const [bookHeader, setBookHeader] = useState(""); // Initialize state for chapter content
