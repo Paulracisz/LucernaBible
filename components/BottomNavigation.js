@@ -10,7 +10,7 @@ export default function BottomNavigation() {
 
 const navStyles = StyleSheet.create({
   navFlex: {
-    position: "absolute",
+    position: "sticky",
     bottom: 0,
     display: "flex",
     justifyContent: "center",
