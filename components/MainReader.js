@@ -4,6 +4,11 @@ import BottomNavigation from "./BottomNavigation";
 import * as kjv from "../assets/assets/bibles/kjv_new.json";
 
 export default function MainReader() {
+  const bookTitles = {
+    1: "Genesis",
+    2: "",
+  };
+  const [bookHeader, setBookHeader] = useState(""); // Initialize state for chapter content
   const [chapterContent, setChapterContent] = useState(""); // Initialize state for chapter content
 
   function fetchBibleContent(bookNumber, chapterNumber) {
@@ -17,14 +22,16 @@ export default function MainReader() {
     }
 
     // Update the state with the chapter content
+    setBookHeader(bookTitles[bookNumber] + "\n" + chapterNumber);
     setChapterContent(chapterText);
   }
 
   return (
     <ScrollView style={readerStyles.scrollView}>
+      <Text style={readerStyles.header}>{bookHeader}</Text>
       <Text style={readerStyles.text}>{chapterContent}</Text>
-      <Button title="Genesis" onPress={() => fetchBibleContent(1, 1)} />
       <BottomNavigation />
+      <Button title="Genesis" onPress={() => fetchBibleContent(1, 1)} />
     </ScrollView>
   );
 }
@@ -35,8 +42,15 @@ const readerStyles = StyleSheet.create({
     backgroundColor: "black",
     margin: 0,
     padding: 15,
+    marginBottom: 100,
     paddingTop: 10,
     paddingTop: StatusBar.currentHeight,
+  },
+  header: {
+    fontSize: 55,
+    margin: 15,
+    color: "#fff",
+    textAlign: "center",
   },
   text: {
     fontSize: 25,

@@ -17,13 +17,13 @@ const navStyles = StyleSheet.create({
     alignItems: "center",
     color: "#ffff",
     width: "100%",
-    height: "10%",
+    height: "25%",
     backgroundColor: "#4f4d4d",
   },
 
   navText: {
     color: "#ffff",
     fontWeight: "bold",
-    fontSize: 28,
+    fontSize: 25,
   },
 });
