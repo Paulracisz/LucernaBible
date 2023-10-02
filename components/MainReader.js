@@ -55,7 +55,8 @@ const readerStyles = StyleSheet.create({
   },
   text: {
     fontSize: 25,
+    lineHeight: 40,
     color: "#fff",
-    textAlign: "center",
+    textAlign: "left",
   },
 });
