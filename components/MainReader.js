@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, ScrollView, Text, StyleSheet, StatusBar } from "react-native";
+import {
+  Button,
+  ScrollView,
+  Text,
+  StyleSheet,
+  StatusBar,
+  Modal,
+  View,
+} from "react-native";
 import BottomNavigation from "./BottomNavigation";
 import * as kjv from "../assets/assets/bibles/kjv_new.json";
 import * as asv from "../assets/assets/bibles/asv_new.json";
@@ -12,10 +20,16 @@ export default function MainReader() {
   const [currentTranslationName, setCurrentTranslationName] = useState("KJV");
   const [currentChapterBook, setCurrentChapterBook] = useState(1);
   const [currentChapterState, setCurrentChapterState] = useState(1);
+  const [showTranslationModal, setTranslationModalVisibility] = useState(false);
+
+  useEffect(() => {
+    renderInitalBibleChapter();
+  }, []); // Empty dependency array means it will run only once on initial render
 
   function setTranslation(translation, translationName) {
     setCurrentTranslation(translation);
     setCurrentTranslationName(translationName.toUpperCase());
+    openTranslationModal();
     fetchBibleContent(currentChapterBook, currentChapterState);
   }
 
@@ -36,19 +50,52 @@ export default function MainReader() {
     setChapterContent(chapterText);
   }
 
-  function openTranslationModal() {}
+  function renderInitalBibleChapter() {
+    // store the last viewed chapter as cached data then call upon that, or load a default John Chapter 1
+    fetchBibleContent(43, 1);
+  }
+
+  function openTranslationModal() {
+    setTranslationModalVisibility(!showTranslationModal);
+  }
 
   return (
     <ScrollView style={readerStyles.scrollView}>
-      <Button title="Genesis" onPress={() => fetchBibleContent(1, 1)} />
+      <Modal
+        transparent={true}
+        animationType="slide" // Add animationType to control the modal animation
+        style={readerStyles.modal}
+        visible={showTranslationModal}
+      >
+        <View style={readerStyles.modalViewer}>
+          <Text
+            onPress={() => setTranslation(kjv, "KJV")}
+            style={readerStyles.translationMenu}
+          >
+            King James Version KJV
+          </Text>
+          <Text
+            onPress={() => setTranslation(asv, "ASV")}
+            style={readerStyles.translationMenu}
+          >
+            American Standard Version ASV
+          </Text>
+          <Text
+            onPress={() => openTranslationModal()}
+            style={readerStyles.closeButton}
+          >
+            Close
+          </Text>
+        </View>
+      </Modal>
+      {/* <Button title="Genesis" onPress={() => fetchBibleContent(1, 1)} />
       <Button title="ASV" onPress={() => setTranslation(asv, "asv")} />
-      <Button title="KJV" onPress={() => setTranslation(kjv, "kjv")} />
+      <Button title="KJV" onPress={() => setTranslation(kjv, "kjv")} /> */}
       <Text
         onPress={() => openTranslationModal()}
         style={readerStyles.translation}
       >
-        {" "}
-        {currentTranslationName}{" "}
+        {currentTranslationName}
       </Text>
       <Text style={readerStyles.header}> {bookHeader} </Text>
       <Text style={readerStyles.chapterNumber}> {currentChapterState} </Text>
@@ -68,6 +115,38 @@ const readerStyles = StyleSheet.create({
     paddingTop: 10,
     paddingTop: StatusBar.currentHeight,
   },
+  translationMenu: {
+    width: "100%",
+    fontSize: 35,
+    padding: 15,
+    textAlign: "center",
+    borderTopWidth: 5,
+    borderBottomWidth: 5,
+    color: "white",
+  },
+  modalViewer: {
+    width: "100%",
+    borderRadius: 50,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "gray",
+    height: "100%",
+  },
+  modal: {
+    width: "80%",
+    height: "80%",
+  },
+  closeButton: {
+    color: "white",
+    fontSize: 35,
+    fontWeight: "bold",
+    position: "absolute",
+    bottom: 15,
+    backgroundColor: "#404040",
+    padding: 5,
+    borderRadius: 5,
+  },
   chapterNumber: {
     fontSize: 85,
     color: "#fff",
@@ -81,7 +160,7 @@ const readerStyles = StyleSheet.create({
     textAlign: "center",
   },
   translation: {
-    borderRadius: "500px",
+    borderRadius: 500,
     backgroundColor: "#404040",
     top: 0,
     flex: 1,

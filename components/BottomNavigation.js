@@ -2,28 +2,33 @@ import { StyleSheet, Text, View } from "react-native";
 
 export default function BottomNavigation() {
   return (
-    <View style={navStyles.navFlex}>
-      <Text style={navStyles.navText}>Hello World</Text>
+    <View style={navStyles.container}>
+      <View style={navStyles.navFlex}>
+        <Text style={navStyles.navText}>Hello World</Text>
+      </View>
     </View>
   );
 }
 
 const navStyles = StyleSheet.create({
+  container: {
+    flex: 1, // This ensures that the container takes up the entire available space.
+    justifyContent: "flex-end", // Align the content at the bottom of the container.
+  },
+
   navFlex: {
     position: "sticky",
     bottom: 0,
-    display: "flex",
+    borderTopWidth: 5,
+    borderColor: "white",
     justifyContent: "center",
     alignItems: "center",
-    color: "#ffff",
-    width: "100%",
+    backgroundColor: "#404040",
     height: "25%",
-    backgroundColor: "#4f4d4d",
   },
 
   navText: {
     color: "#ffff",
-    fontWeight: "bold",
-    fontSize: 25,
+    fontSize: 15,
   },
 });
