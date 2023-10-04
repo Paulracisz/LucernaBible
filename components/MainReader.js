@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
+  Br,
   ScrollView,
   Text,
   StyleSheet,
@@ -67,12 +68,12 @@ export default function MainReader() {
         style={readerStyles.modal}
         visible={showTranslationModal}
       >
-        <View style={readerStyles.modalViewer}>
+        <ScrollView style={readerStyles.modalViewer}>
           <Text
             onPress={() => setTranslation(kjv, "KJV")}
             style={readerStyles.translationMenu}
           >
-            King James Version KJV
+            KJV King James Version
           </Text>
           <Text
             onPress={() => setTranslation(asv, "ASV")}
@@ -86,7 +87,7 @@ export default function MainReader() {
           >
             Close
           </Text>
-        </View>
+        </ScrollView>
       </Modal>
       {/* <Button title="Genesis" onPress={() => fetchBibleContent(1, 1)} />
       <Button title="ASV" onPress={() => setTranslation(asv, "asv")} />
@@ -116,22 +117,19 @@ const readerStyles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
   },
   translationMenu: {
-    width: "100%",
-    fontSize: 35,
+    width: "50%",
+    fontSize: 25,
     padding: 15,
     textAlign: "center",
-    borderTopWidth: 5,
-    borderBottomWidth: 5,
     color: "white",
   },
   modalViewer: {
-    width: "100%",
-    borderRadius: 50,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "gray",
-    height: "100%",
+    flex: 1,
+    backgroundColor: "black",
+    borderRadius: 5,
+    margin: 0,
+    padding: 25,
+    paddingTop: StatusBar.currentHeight,
   },
   modal: {
     width: "80%",
@@ -141,8 +139,7 @@ const readerStyles = StyleSheet.create({
     color: "white",
     fontSize: 35,
     fontWeight: "bold",
-    position: "absolute",
-    bottom: 15,
+    width: 100,
     backgroundColor: "#404040",
     padding: 5,
     borderRadius: 5,
