@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
-  Br,
+  Image,
   ScrollView,
   Text,
   StyleSheet,
@@ -9,9 +9,15 @@ import {
   Modal,
   View,
 } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import BottomNavigation from "./BottomNavigation";
 import * as kjv from "../assets/assets/bibles/kjv_new.json";
 import * as asv from "../assets/assets/bibles/asv_new.json";
+import * as bbe from "../assets/assets/bibles/bbe_new.json";
+import * as web from "../assets/assets/bibles/web_new.json";
+import * as ylt from "../assets/assets/bibles/ylt_new.json";
 import * as bookTitles from "../assets/assets/chapterKeys.json";
 
 export default function MainReader() {
@@ -60,6 +66,10 @@ export default function MainReader() {
     setTranslationModalVisibility(!showTranslationModal);
   }
 
+  function openTranslationInfo(translationName) {
+    // select which translation from an OBJ and display information about that translation in a modal window
+  }
+
   return (
     <ScrollView style={readerStyles.scrollView}>
       <Modal
@@ -69,23 +79,104 @@ export default function MainReader() {
         visible={showTranslationModal}
       >
         <ScrollView style={readerStyles.modalViewer}>
+          <Text style={readerStyles.versionsHeader}>
+            <Text
+              onPress={() => openTranslationModal()}
+              style={readerStyles.closeButton}
+            >
+              <AntDesign name="arrowleft" size={34} color="white" />
+            </Text>
+            <Text style={readerStyles.versions}>Versions</Text>
+          </Text>
+
           <Text
             onPress={() => setTranslation(kjv, "KJV")}
             style={readerStyles.translationMenu}
           >
-            KJV King James Version
+            <Text style={readerStyles.translationName}>KJV</Text>
+            {"\n"}
+            <Text style={readerStyles.expandedTranslationName}>
+              The King James Version
+            </Text>
+            <Feather
+              name="info"
+              size={24}
+              style={readerStyles.infoIcons}
+              color="white"
+              onPress={() => openTranslationInfo("KJV")}
+            />
           </Text>
+
           <Text
             onPress={() => setTranslation(asv, "ASV")}
             style={readerStyles.translationMenu}
           >
-            American Standard Version ASV
+            <Text style={readerStyles.translationName}>ASV</Text>
+            {"\n"}
+            <Text style={readerStyles.expandedTranslationName}>
+              The American Standard Version
+            </Text>
+            <Feather
+              name="info"
+              size={24}
+              style={readerStyles.infoIcons}
+              color="white"
+              onPress={() => openTranslationInfo("KJV")}
+            />
           </Text>
+
           <Text
-            onPress={() => openTranslationModal()}
-            style={readerStyles.closeButton}
+            onPress={() => setTranslation(bbe, "BBE")}
+            style={readerStyles.translationMenu}
           >
-            Close
+            <Text style={readerStyles.translationName}>BBE</Text>
+            {"\n"}
+            <Text style={readerStyles.expandedTranslationName}>
+              The Bible in Basic English
+            </Text>
+            <Feather
+              name="info"
+              size={24}
+              style={readerStyles.infoIcons}
+              color="white"
+              onPress={() => openTranslationInfo("BBE")}
+            />
+          </Text>
+
+          <Text
+            onPress={() => setTranslation(web, "WEB")}
+            style={readerStyles.translationMenu}
+          >
+            <Text style={readerStyles.translationName}>WEB</Text>
+            {"\n"}
+            <Text style={readerStyles.expandedTranslationName}>
+              The Word English Bible
+            </Text>
+            <Feather
+              name="info"
+              size={24}
+              style={readerStyles.infoIcons}
+              color="white"
+              onPress={() => openTranslationInfo("WEB")}
+            />
+          </Text>
+
+          <Text
+            onPress={() => setTranslation(ylt, "YLT")}
+            style={readerStyles.translationMenu}
+          >
+            <Text style={readerStyles.translationName}>YLT</Text>
+            {"\n"}
+            <Text style={readerStyles.expandedTranslationName}>
+              Young's Literal Translation
+            </Text>
+            <Feather
+              name="info"
+              size={24}
+              style={readerStyles.infoIcons}
+              color="white"
+              onPress={() => openTranslationInfo("YLT")}
+            />
           </Text>
         </ScrollView>
       </Modal>
@@ -116,11 +207,36 @@ const readerStyles = StyleSheet.create({
     paddingTop: 10,
     paddingTop: StatusBar.currentHeight,
   },
+  versionsHeader: {
+    alignItems: "center", // Center text horizontally
+    justifyContent: "center", // Center text vertically
+    flex: 1, // Add flex to center content vertically
+    flexDirection: "row", // Add flexDirection to align items horizontally
+  },
+  informationIcon: {
+    backgroundColor: "white",
+    borderWidth: 5,
+    textAlign: "right",
+    borderColor: "red",
+  },
+  translationName: {
+    fontSize: 25,
+    fontWeight: "bold",
+    textAlign: "left",
+  },
+  versions: {
+    color: "white",
+    textAlign: "right",
+    fontWeight: "bold",
+    fontSize: 32,
+  },
+  expandedTranslationName: {
+    fontSize: 15,
+  },
   translationMenu: {
-    width: "50%",
+    width: "100%",
     fontSize: 25,
     padding: 15,
-    textAlign: "center",
     color: "white",
   },
   modalViewer: {
@@ -136,13 +252,9 @@ const readerStyles = StyleSheet.create({
     height: "80%",
   },
   closeButton: {
-    color: "white",
-    fontSize: 35,
-    fontWeight: "bold",
-    width: 100,
-    backgroundColor: "#404040",
-    padding: 5,
-    borderRadius: 5,
+    marginLeft: "auto", // Move the button to the right
+    marginRight: 10, // Adjust the right margin as needed
+    marginTop: StatusBar.currentHeight + 5, // Adjust the top margin as needed
   },
   chapterNumber: {
     fontSize: 85,
