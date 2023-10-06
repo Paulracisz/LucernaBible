@@ -66,134 +66,160 @@ export default function MainReader() {
     setTranslationModalVisibility(!showTranslationModal);
   }
 
+  function incrementChapter() {
+    // currentChapter + 1
+    // check if last chapter in the book, go to the next book
+  }
+
+  function decrementChapter() {
+    // currentChapter - 1
+    // check if last chapter in the book, go to the previous book
+  }
+
   function openTranslationInfo(translationName) {
     // select which translation from an OBJ and display information about that translation in a modal window
   }
 
   return (
-    <ScrollView style={readerStyles.scrollView}>
-      <Modal
-        transparent={true}
-        animationType="slide" // Add animationType to control the modal animation
-        style={readerStyles.modal}
-        visible={showTranslationModal}
-      >
-        <ScrollView style={readerStyles.modalViewer}>
-          <Text style={readerStyles.versionsHeader}>
+    <>
+      <ScrollView style={readerStyles.scrollView}>
+        <Modal
+          transparent={true}
+          animationType="slide" // Add animationType to control the modal animation
+          style={readerStyles.modal}
+          visible={showTranslationModal}
+        >
+          <ScrollView style={readerStyles.modalViewer}>
+            <Text style={readerStyles.versionsHeader}>
+              <Text
+                onPress={() => openTranslationModal()}
+                style={readerStyles.closeButton}
+              >
+                <AntDesign name="arrowleft" size={34} color="white" />
+              </Text>
+              <Text style={readerStyles.versions}>Versions</Text>
+            </Text>
+
             <Text
-              onPress={() => openTranslationModal()}
-              style={readerStyles.closeButton}
+              onPress={() => setTranslation(kjv, "KJV")}
+              style={readerStyles.translationMenu}
             >
-              <AntDesign name="arrowleft" size={34} color="white" />
+              <Text style={readerStyles.infoFlex}>
+                <Text style={readerStyles.translationName}>KJV</Text>
+                {"\n"}
+                <Text style={readerStyles.expandedTranslationName}>
+                  The King James Version
+                </Text>
+                <Feather
+                  name="info"
+                  size={24}
+                  style={readerStyles.infoIcons}
+                  color="white"
+                  onPress={() => openTranslationInfo("KJV")}
+                />
+              </Text>
             </Text>
-            <Text style={readerStyles.versions}>Versions</Text>
-          </Text>
 
-          <Text
-            onPress={() => setTranslation(kjv, "KJV")}
-            style={readerStyles.translationMenu}
-          >
-            <Text style={readerStyles.translationName}>KJV</Text>
-            {"\n"}
-            <Text style={readerStyles.expandedTranslationName}>
-              The King James Version
+            <Text
+              onPress={() => setTranslation(asv, "ASV")}
+              style={readerStyles.translationMenu}
+            >
+              <Text style={readerStyles.infoFlex}>
+                <Text style={readerStyles.translationName}>ASV</Text>
+                {"\n"}
+                <Text style={readerStyles.expandedTranslationName}>
+                  The American Standard Version
+                </Text>
+                <Feather
+                  name="info"
+                  size={24}
+                  style={readerStyles.infoIcons}
+                  color="white"
+                  onPress={() => openTranslationInfo("KJV")}
+                />
+              </Text>
             </Text>
-            <Feather
-              name="info"
-              size={24}
-              style={readerStyles.infoIcons}
-              color="white"
-              onPress={() => openTranslationInfo("KJV")}
-            />
-          </Text>
 
-          <Text
-            onPress={() => setTranslation(asv, "ASV")}
-            style={readerStyles.translationMenu}
-          >
-            <Text style={readerStyles.translationName}>ASV</Text>
-            {"\n"}
-            <Text style={readerStyles.expandedTranslationName}>
-              The American Standard Version
+            <Text
+              onPress={() => setTranslation(bbe, "BBE")}
+              style={readerStyles.translationMenu}
+            >
+              <Text style={readerStyles.infoFlex}>
+                <Text style={readerStyles.translationName}>BBE</Text>
+                {"\n"}
+                <Text style={readerStyles.expandedTranslationName}>
+                  The Bible in Basic English
+                </Text>
+                <Feather
+                  name="info"
+                  size={24}
+                  style={readerStyles.infoIcons}
+                  color="white"
+                  onPress={() => openTranslationInfo("BBE")}
+                />
+              </Text>
             </Text>
-            <Feather
-              name="info"
-              size={24}
-              style={readerStyles.infoIcons}
-              color="white"
-              onPress={() => openTranslationInfo("KJV")}
-            />
-          </Text>
 
-          <Text
-            onPress={() => setTranslation(bbe, "BBE")}
-            style={readerStyles.translationMenu}
-          >
-            <Text style={readerStyles.translationName}>BBE</Text>
-            {"\n"}
-            <Text style={readerStyles.expandedTranslationName}>
-              The Bible in Basic English
+            <Text
+              onPress={() => setTranslation(web, "WEB")}
+              style={readerStyles.translationMenu}
+            >
+              <Text style={readerStyles.infoFlex}>
+                <Text style={readerStyles.translationName}>WEB</Text>
+                {"\n"}
+                <Text style={readerStyles.expandedTranslationName}>
+                  The Word English Bible
+                </Text>
+                <Feather
+                  name="info"
+                  size={24}
+                  style={readerStyles.infoIcons}
+                  color="white"
+                  onPress={() => openTranslationInfo("WEB")}
+                />
+              </Text>
             </Text>
-            <Feather
-              name="info"
-              size={24}
-              style={readerStyles.infoIcons}
-              color="white"
-              onPress={() => openTranslationInfo("BBE")}
-            />
-          </Text>
 
-          <Text
-            onPress={() => setTranslation(web, "WEB")}
-            style={readerStyles.translationMenu}
-          >
-            <Text style={readerStyles.translationName}>WEB</Text>
-            {"\n"}
-            <Text style={readerStyles.expandedTranslationName}>
-              The Word English Bible
+            <Text
+              onPress={() => setTranslation(ylt, "YLT")}
+              style={readerStyles.translationMenu}
+            >
+              <Text style={readerStyles.translationName}>YLT</Text>
+              {"\n"}
+              <Text style={readerStyles.infoFlex}>
+                <Text style={readerStyles.expandedTranslationName}>
+                  Young's Literal Translation
+                </Text>
+                <Feather
+                  name="info"
+                  size={24}
+                  style={readerStyles.infoIcons}
+                  color="white"
+                  onPress={() => openTranslationInfo("YLT")}
+                />
+              </Text>
             </Text>
-            <Feather
-              name="info"
-              size={24}
-              style={readerStyles.infoIcons}
-              color="white"
-              onPress={() => openTranslationInfo("WEB")}
-            />
-          </Text>
-
-          <Text
-            onPress={() => setTranslation(ylt, "YLT")}
-            style={readerStyles.translationMenu}
-          >
-            <Text style={readerStyles.translationName}>YLT</Text>
-            {"\n"}
-            <Text style={readerStyles.expandedTranslationName}>
-              Young's Literal Translation
-            </Text>
-            <Feather
-              name="info"
-              size={24}
-              style={readerStyles.infoIcons}
-              color="white"
-              onPress={() => openTranslationInfo("YLT")}
-            />
-          </Text>
-        </ScrollView>
-      </Modal>
-      {/* <Button title="Genesis" onPress={() => fetchBibleContent(1, 1)} />
+          </ScrollView>
+        </Modal>
+        {/* <Button title="Genesis" onPress={() => fetchBibleContent(1, 1)} />
       <Button title="ASV" onPress={() => setTranslation(asv, "asv")} />
       <Button title="KJV" onPress={() => setTranslation(kjv, "kjv")} /> */}
-      <Text
-        onPress={() => openTranslationModal()}
-        style={readerStyles.translation}
-      >
-        {currentTranslationName}
-      </Text>
-      <Text style={readerStyles.header}> {bookHeader} </Text>
-      <Text style={readerStyles.chapterNumber}> {currentChapterState} </Text>
-      <Text style={readerStyles.text}> {chapterContent} </Text>
-      <BottomNavigation />
-    </ScrollView>
+        <Text
+          onPress={() => openTranslationModal()}
+          style={readerStyles.translation}
+        >
+          {currentTranslationName}
+        </Text>
+        <Text style={readerStyles.header}> {bookHeader} </Text>
+        <Text style={readerStyles.chapterNumber}> {currentChapterState} </Text>
+        <Text style={readerStyles.text}> {chapterContent} </Text>
+      </ScrollView>
+
+      <BottomNavigation
+        bookHeader={bookHeader}
+        currentChapterState={currentChapterState}
+      />
+    </>
   );
 }
 
@@ -203,7 +229,6 @@ const readerStyles = StyleSheet.create({
     backgroundColor: "black",
     margin: 0,
     padding: 15,
-    marginBottom: 100,
     paddingTop: 10,
     paddingTop: StatusBar.currentHeight,
   },
@@ -213,15 +238,21 @@ const readerStyles = StyleSheet.create({
     flex: 1, // Add flex to center content vertically
     flexDirection: "row", // Add flexDirection to align items horizontally
   },
-  informationIcon: {
-    backgroundColor: "white",
-    borderWidth: 5,
+  infoFlex: {
+    flex: 1, // Add flex to center content vertically
+    flexDirection: "row", // Add flexDirection to align items horizontally
+    alignItems: "center", // Center text horizontally
+    justifyContent: "center", // Center text vertically
+  },
+  infoIcons: {
     textAlign: "right",
-    borderColor: "red",
+    alignSelf: "flex-end",
   },
   translationName: {
     fontSize: 25,
     fontWeight: "bold",
+    display: "flex",
+    alignItems: "center",
     textAlign: "left",
   },
   versions: {
@@ -235,6 +266,7 @@ const readerStyles = StyleSheet.create({
   },
   translationMenu: {
     width: "100%",
+    justifyContent: "space-between",
     fontSize: 25,
     padding: 15,
     color: "white",
@@ -284,6 +316,7 @@ const readerStyles = StyleSheet.create({
     fontSize: 25,
     lineHeight: 40,
     color: "#fff",
+    marginBottom: 100,
     textAlign: "left",
   },
 });
