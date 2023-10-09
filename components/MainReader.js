@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Button,
   Image,
@@ -28,6 +28,8 @@ export default function MainReader() {
   const [currentChapterBook, setCurrentChapterBook] = useState(1);
   const [currentChapterState, setCurrentChapterState] = useState(1);
   const [showTranslationModal, setTranslationModalVisibility] = useState(false);
+  const scrollViewRef = useRef(); // Create a ref for the main ScrollView
+  const modalScrollViewRef = useRef(); // Create a ref for the ScrollView inside the Modal
 
   useEffect(() => {
     renderInitalBibleChapter();
@@ -67,13 +69,55 @@ export default function MainReader() {
   }
 
   function incrementChapter() {
-    // currentChapter + 1
-    // check if last chapter in the book, go to the next book
+    // Check if the current chapter is not the last chapter in the current book
+    if (
+      currentChapterState <
+      Object.keys(currentTranslation[currentChapterBook]).length
+    ) {
+      // Increment the chapter number
+      const newChapterNumber = currentChapterState + 1;
+      // Fetch the content for the new chapter
+      fetchBibleContent(currentChapterBook, newChapterNumber);
+    } else {
+      // If it is the first chapter in the current book, handle this case
+      // by moving to the previous book or any other logic you prefer.
+
+      const newBook = currentChapterBook + 1;
+      // Fetch the content for the new chapter
+      fetchBibleContent(newBook, 1);
+      // Scroll to the top
+    }
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ y: 0, animated: true });
+    }
   }
 
   function decrementChapter() {
-    // currentChapter - 1
-    // check if last chapter in the book, go to the previous book
+    // Check if the current chapter is not the first chapter in the current book
+    if (currentChapterState > 1) {
+      // Decrement the chapter number
+      const newChapterNumber = currentChapterState - 1;
+
+      // Fetch the content for the new chapter
+      fetchBibleContent(currentChapterBook, newChapterNumber);
+    } else {
+      // If it is the first chapter in the current book, handle this case
+      // by moving to the previous book.
+      const newBook = currentChapterBook - 1;
+      // Fetch the content for the new chapter
+      fetchBibleContent(
+        newBook,
+        Object.keys(currentTranslation[newBook]).length
+      );
+    }
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ y: 0, animated: true });
+    }
+  }
+
+  function openBookMenu() {
+    // open modal for book and chapter selection from nav bar
+    window.alert("open book menu");
   }
 
   function openTranslationInfo(translationName) {
@@ -82,7 +126,7 @@ export default function MainReader() {
 
   return (
     <>
-      <ScrollView style={readerStyles.scrollView}>
+      <ScrollView ref={scrollViewRef} style={readerStyles.scrollView}>
         <Modal
           transparent={true}
           animationType="slide" // Add animationType to control the modal animation
@@ -218,6 +262,9 @@ export default function MainReader() {
       <BottomNavigation
         bookHeader={bookHeader}
         currentChapterState={currentChapterState}
+        incrementChapter={incrementChapter}
+        decrementChapter={decrementChapter}
+        openBookMenu={openBookMenu}
       />
     </>
   );
