@@ -19,7 +19,7 @@ export default function BottomNavigation(props) {
           >
             <AntDesign
               name="left"
-              size={34}
+              size={30}
               color="white"
               style={navStyles.arrow}
             />
@@ -35,7 +35,7 @@ export default function BottomNavigation(props) {
           >
             <AntDesign
               name="right"
-              size={34}
+              size={30}
               color="white"
               style={[navStyles.arrow, navStyles.rightArrow]}
             />
@@ -77,8 +77,8 @@ const navStyles = StyleSheet.create({
   navText: {
     color: "#ffffff",
     backgroundColor: "gray",
-    paddingVertical: 10, // Add padding to top and bottom
-    paddingHorizontal: 45,
+    paddingVertical: 20, // Add padding to top and bottom
+    paddingHorizontal: 15,
     fontWeight: "bold",
     borderRadius: 500,
     fontSize: 25,
@@ -89,11 +89,8 @@ const navStyles = StyleSheet.create({
   },
 
   arrow: {
-    padding: 5,
     marginHorizontal: 15,
   },
 
-  rightArrow: {
-    marginLeft: 20, // Add margin to push the right arrow further to the right
-  },
+  rightArrow: {},
 });
