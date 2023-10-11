@@ -29,6 +29,7 @@ export default function MainReader() {
   const [currentChapterState, setCurrentChapterState] = useState(1);
   const [showTranslationModal, setTranslationModalVisibility] = useState(false);
   const [showBookMenu, setBookMenuVisibility] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
   const scrollViewRef = useRef(); // Create a ref for the main ScrollView
 
   const bibleBooks = [
@@ -196,7 +197,26 @@ export default function MainReader() {
     openBookMenu(false);
   }
 
-  function openBookMenuHamburger() {}
+  function renderChapterNumbers(bookName) {
+    if (selectedBook === bookName) {
+      const chapterNumbers = Object.keys(currentTranslation[bookName]);
+
+      return (
+        <View style={readerStyles.container}>
+          {chapterNumbers.map((chapterNumber) => (
+            <Text
+              key={chapterNumber}
+              onPress={() => selectChapter(bookName, chapterNumber)}
+              style={readerStyles.chapterNumbers}
+            >
+              {chapterNumber}
+            </Text>
+          ))}
+        </View>
+      );
+    }
+    return null;
+  }
 
   function openTranslationInfo(translationName) {
     // select which translation from an OBJ and display information about that translation in a modal window
@@ -325,7 +345,7 @@ export default function MainReader() {
         </Modal>
         <Modal
           transparent={true}
-          animationType="slide" // Add animationType to control the modal animation
+          animationType="slide"
           style={readerStyles.modal}
           visible={showBookMenu}
         >
@@ -344,38 +364,24 @@ export default function MainReader() {
               </Text>
               <Text style={readerStyles.bookMenuTitle}>Books</Text>
             </Text>
-            {/* find a better solution than mapping which is incredibly slow, and fix the styling of the chapter numbers */}
-            {bibleBooks.map((bookName, bookIndex) => (
-              <View key={bookIndex}>
-                <Text
-                  onPress={() => openBookMenuHamburger()}
-                  style={readerStyles.bookTitles}
-                >
-                  {bookName}
-                </Text>
-                <View style={readerStyles.container}>
-                  {Object.keys(currentTranslation[bookIndex + 1]).map(
-                    (chapterNumber) => (
-                      <Text
-                        key={chapterNumber}
-                        visible={false}
-                        onPress={() =>
-                          selectChapter(bookIndex + 1, chapterNumber)
-                        }
-                        style={readerStyles.chapterNumbers}
-                      >
-                        {chapterNumber}
-                      </Text>
-                    )
-                  )}
-                </View>
-              </View>
-            ))}
+            {/* Conditional rendering for chapter numbers */}
+            {showBookMenu && (
+              <>
+                {bibleBooks.map((bookName, bookIndex) => (
+                  <View key={bookIndex}>
+                    <Text
+                      onPress={() => setSelectedBook(bookIndex + 1)}
+                      style={readerStyles.bookTitles}
+                    >
+                      {bookName}
+                    </Text>
+                    {renderChapterNumbers(bookIndex + 1)}
+                  </View>
+                ))}
+              </>
+            )}
           </ScrollView>
         </Modal>
-        {/* <Button title="Genesis" onPress={() => fetchBibleContent(1, 1)} />
-      <Button title="ASV" onPress={() => setTranslation(asv, "asv")} />
-      <Button title="KJV" onPress={() => setTranslation(kjv, "kjv")} /> */}
         <Text
           onPress={() => openTranslationModal()}
           style={readerStyles.translation}
@@ -432,10 +438,12 @@ const readerStyles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   container: {
-    flexDirection: "row", // To display the Text components horizontally
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 15,
     justifyContent: "center",
-    backgroundColor: "gray",
-    alignItems: "center", // To align the Text components vertically
+    flexWrap: "wrap",
   },
   bookTitles: {
     color: "white",
@@ -448,14 +456,24 @@ const readerStyles = StyleSheet.create({
     backgroundColor: "black",
     borderRadius: 5,
     margin: 0,
-    paddingBottom: 85,
-    padding: 25,
-    paddingTop: StatusBar.currentHeight,
+    paddingBottom: 155,
+    paddingHorizontal: 25,
   },
   chapterNumbers: {
     color: "white",
-    paddingHorizontal: 5,
-    marginHorizontal: 5,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    backgroundColor: "gray",
+    borderRadius: 5,
+    width: 35,
+    height: 35,
+    borderWidth: 2,
+    textAlign: "center",
+    textAlignVertical: "center",
+    borderColor: "black",
     fontSize: 20,
   },
   translationName: {
