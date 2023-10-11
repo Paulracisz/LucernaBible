@@ -139,18 +139,22 @@ export default function MainReader() {
   }
 
   function incrementChapter() {
+    // check if the current chapter is not the last chapter in the entire bible
+    if (currentChapterBook == 66 && currentChapterState == 22) {
+      return null;
+    }
     // Check if the current chapter is not the last chapter in the current book
     if (
       currentChapterState <
       Object.keys(currentTranslation[currentChapterBook]).length
     ) {
       // Increment the chapter number
-      const newChapterNumber = currentChapterState + 1;
+      let newChapterNumber = parseInt(currentChapterState) + 1;
       // Fetch the content for the new chapter
       fetchBibleContent(currentChapterBook, newChapterNumber);
     } else {
       // If it is the first chapter in the current book, handle this case
-      // by moving to the previous book or any other logic you prefer.
+      // by moving to the previous book.
 
       const newBook = currentChapterBook + 1;
       // Fetch the content for the new chapter
@@ -163,6 +167,10 @@ export default function MainReader() {
   }
 
   function decrementChapter() {
+    // check if the current chapter is not the first chapter in the entire bible
+    if (currentChapterBook == 1 && currentChapterState == 1) {
+      return null;
+    }
     // Check if the current chapter is not the first chapter in the current book
     if (currentChapterState > 1) {
       // Decrement the chapter number
@@ -468,8 +476,8 @@ const readerStyles = StyleSheet.create({
     flexWrap: "wrap",
     backgroundColor: "gray",
     borderRadius: 5,
-    width: 35,
-    height: 35,
+    width: 45,
+    height: 45,
     borderWidth: 2,
     textAlign: "center",
     textAlignVertical: "center",
