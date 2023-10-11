@@ -105,6 +105,12 @@ export default function MainReader() {
     renderInitalBibleChapter();
   }, []); // Empty dependency array means it will run only once on initial render
 
+  useEffect(() => {
+    // This code will run whenever currentTranslation changes.
+    // You can update the displayed text here.
+    fetchBibleContent(currentChapterBook, currentChapterState);
+  }, [currentTranslation]); // Depend on currentTranslation
+
   function setTranslation(translation, translationName) {
     setCurrentTranslation(translation);
     setCurrentTranslationName(translationName.toUpperCase());
