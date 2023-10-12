@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
-  Button,
-  Image,
   ScrollView,
   Text,
   StyleSheet,
@@ -9,8 +7,8 @@ import {
   Modal,
   View,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Feather } from "@expo/vector-icons";
-import { FlatList } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import BottomNavigation from "./BottomNavigation";
 import * as kjv from "../assets/assets/bibles/kjv_new.json";
@@ -107,7 +105,6 @@ export default function MainReader() {
 
   useEffect(() => {
     // This code will run whenever currentTranslation changes.
-    // You can update the displayed text here.
     fetchBibleContent(currentChapterBook, currentChapterState);
   }, [currentTranslation]); // Depend on currentTranslation
 
@@ -133,11 +130,21 @@ export default function MainReader() {
     // Update the state with the chapter content
     setBookHeader(bookTitles.chapters[bookNumber].title);
     setChapterContent(chapterText);
+    // Save the current book and chapter
+    _saveCurrentChapter(bookNumber, chapterNumber);
   }
 
   function renderInitalBibleChapter() {
-    // store the last viewed chapter as cached data then call upon that, or load a default John Chapter 1
-    fetchBibleContent(43, 1);
+    // Retrieve the last viewed chapter from AsyncStorage
+    _retrieveCurrentChapter().then((lastChapter) => {
+      if (lastChapter) {
+        const { bookNumber, chapterNumber } = lastChapter;
+        fetchBibleContent(bookNumber, chapterNumber);
+      } else {
+        // If there is no last viewed chapter, load a default chapter (e.g., John 1)
+        fetchBibleContent(43, 1);
+      }
+    });
   }
 
   function openTranslationModal() {
@@ -234,6 +241,33 @@ export default function MainReader() {
 
   function openTranslationInfo(translationName) {
     // select which translation from an OBJ and display information about that translation in a modal window
+  }
+
+  async function _saveCurrentChapter(bookNumber, chapterNumber) {
+    const dataToStore = JSON.stringify({ bookNumber, chapterNumber });
+    try {
+      await AsyncStorage.setItem("currentChapter", dataToStore);
+    } catch (error) {
+      console.error("Error saving data: ", error);
+      // Handle the error appropriately (e.g., show an error message to the user)
+    }
+  }
+
+  async function _retrieveCurrentChapter() {
+    try {
+      const value = await AsyncStorage.getItem("currentChapter");
+      if (value !== null) {
+        // Check if the retrieved value is valid JSON before parsing
+        const parsedValue = JSON.parse(value);
+        return parsedValue;
+      }
+    } catch (error) {
+      // Handle errors appropriately
+      console.error("Error retrieving data:", error);
+    }
+
+    // If no valid data was found or there was an error, return a default value
+    return null;
   }
 
   return (
