@@ -1,0 +1,335 @@
+{
+  "chapters": [
+    {},
+    {
+      "key": "1",
+      "title": "Genesis",
+      "expanded": false
+    },
+    {
+      "key": "2",
+      "title": "Exodus",
+      "expanded": false
+    },
+    {
+      "key": "3",
+      "title": "Leviticus",
+      "expanded": false
+    },
+    {
+      "key": "4",
+      "title": "Numbers",
+      "expanded": false
+    },
+    {
+      "key": "5",
+      "title": "Deuteronomy",
+      "expanded": false
+    },
+    {
+      "key": "6",
+      "title": "Joshua",
+      "expanded": false
+    },
+    {
+      "key": "7",
+      "title": "Judges",
+      "expanded": false
+    },
+    {
+      "key": "8",
+      "title": "Ruth",
+      "expanded": false
+    },
+    {
+      "key": "9",
+      "title": "1 Samuel",
+      "expanded": false
+    },
+    {
+      "key": "10",
+      "title": "2 Samuel",
+      "expanded": false
+    },
+    {
+      "key": "11",
+      "title": "1 Kings",
+      "expanded": false
+    },
+    {
+      "key": "12",
+      "title": "2 Kings",
+      "expanded": false
+    },
+    {
+      "key": "13",
+      "title": "1 Chronicles",
+      "expanded": false
+    },
+    {
+      "key": "14",
+      "title": "2 Chronicles",
+      "expanded": false
+    },
+    {
+      "key": "15",
+      "title": "Ezra",
+      "expanded": false
+    },
+    {
+      "key": "16",
+      "title": "Nehemiah",
+      "expanded": false
+    },
+    {
+      "key": "17",
+      "title": "Esther",
+      "expanded": false
+    },
+    {
+      "key": "18",
+      "title": "Job",
+      "expanded": false
+    },
+    {
+      "key": "19",
+      "title": "Psalms",
+      "expanded": false
+    },
+    {
+      "key": "20",
+      "title": "Proverbs",
+      "expanded": false
+    },
+    {
+      "key": "21",
+      "title": "Ecclesiastes",
+      "expanded": false
+    },
+    {
+      "key": "22",
+      "title": "Song of Solomon",
+      "expanded": false
+    },
+    {
+      "key": "23",
+      "title": "Isaiah",
+      "expanded": false
+    },
+    {
+      "key": "24",
+      "title": "Jeremiah",
+      "expanded": false
+    },
+    {
+      "key": "25",
+      "title": "Lamentations",
+      "expanded": false
+    },
+    {
+      "key": "26",
+      "title": "Ezekiel",
+      "expanded": false
+    },
+    {
+      "key": "27",
+      "title": "Daniel",
+      "expanded": false
+    },
+    {
+      "key": "28",
+      "title": "Hosea",
+      "expanded": false
+    },
+    {
+      "key": "29",
+      "title": "Joel",
+      "expanded": false
+    },
+    {
+      "key": "30",
+      "title": "Amos",
+      "expanded": false
+    },
+    {
+      "key": "31",
+      "title": "Obadiah",
+      "expanded": false
+    },
+    {
+      "key": "32",
+      "title": "Jonah",
+      "expanded": false
+    },
+    {
+      "key": "33",
+      "title": "Micah",
+      "expanded": false
+    },
+    {
+      "key": "34",
+      "title": "Nahum",
+      "expanded": false
+    },
+    {
+      "key": "35",
+      "title": "Habakkuk",
+      "expanded": false
+    },
+    {
+      "key": "36",
+      "title": "Zephaniah",
+      "expanded": false
+    },
+    {
+      "key": "37",
+      "title": "Haggai",
+      "expanded": false
+    },
+    {
+      "key": "38",
+      "title": "Zechariah",
+      "expanded": false
+    },
+    {
+      "key": "39",
+      "title": "Malachi",
+      "expanded": false
+    },
+    {
+      "key": "40",
+      "title": "Matthew",
+      "expanded": false
+    },
+    {
+      "key": "41",
+      "title": "Mark",
+      "expanded": false
+    },
+    {
+      "key": "42",
+      "title": "Luke",
+      "expanded": false
+    },
+    {
+      "key": "43",
+      "title": "John",
+      "expanded": false
+    },
+    {
+      "key": "44",
+      "title": "Acts",
+      "expanded": false
+    },
+    {
+      "key": "45",
+      "title": "Romans",
+      "expanded": false
+    },
+    {
+      "key": "46",
+      "title": "1 Corinthians",
+      "expanded": false
+    },
+    {
+      "key": "47",
+      "title": "2 Corinthians",
+      "expanded": false
+    },
+    {
+      "key": "48",
+      "title": "Galatians",
+      "expanded": false
+    },
+    {
+      "key": "49",
+      "title": "Ephesians",
+      "expanded": false
+    },
+    {
+      "key": "50",
+      "title": "Philippians",
+      "expanded": false
+    },
+    {
+      "key": "51",
+      "title": "Colossians",
+      "expanded": false
+    },
+    {
+      "key": "52",
+      "title": "1 Thessalonians",
+      "expanded": false
+    },
+    {
+      "key": "53",
+      "title": "2 Thessalonians",
+      "expanded": false
+    },
+    {
+      "key": "54",
+      "title": "1 Timothy",
+      "expanded": false
+    },
+    {
+      "key": "55",
+      "title": "2 Timothy",
+      "expanded": false
+    },
+    {
+      "key": "56",
+      "title": "Titus",
+      "expanded": false
+    },
+    {
+      "key": "57",
+      "title": "Philemon",
+      "expanded": false
+    },
+    {
+      "key": "58",
+      "title": "Hebrews",
+      "expanded": false
+    },
+    {
+      "key": "59",
+      "title": "James",
+      "expanded": false
+    },
+    {
+      "key": "60",
+      "title": "1 Peter",
+      "expanded": false
+    },
+    {
+      "key": "61",
+      "title": "2 Peter",
+      "expanded": false
+    },
+    {
+      "key": "62",
+      "title": "1 John",
+      "expanded": false
+    },
+    {
+      "key": "63",
+      "title": "2 John",
+      "expanded": false
+    },
+    {
+      "key": "64",
+      "title": "3 John",
+      "expanded": false
+    },
+    {
+      "key": "65",
+      "title": "Jude",
+      "expanded": false
+    },
+    {
+      "key": "66",
+      "title": "Revelation",
+      "expanded": false
+    }
+  ]
+}
