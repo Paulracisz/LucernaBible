@@ -249,7 +249,6 @@ export default function MainReader() {
       await AsyncStorage.setItem("currentChapter", dataToStore);
     } catch (error) {
       console.error("Error saving data: ", error);
-      // Handle the error appropriately (e.g., show an error message to the user)
     }
   }
 
