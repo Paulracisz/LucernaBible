@@ -28,6 +28,9 @@ export default function MainReader() {
   const [showTranslationModal, setTranslationModalVisibility] = useState(false);
   const [showBookMenu, setBookMenuVisibility] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [showTranslationInfoVisibility, setTranslationInfoVisibility] =
+    useState(false);
+  const [highlightedVerseIndex, setHighlightedVerseIndex] = useState(null);
   const scrollViewRef = useRef(); // Create a ref for the main ScrollView
 
   const bibleBooks = [
@@ -121,17 +124,42 @@ export default function MainReader() {
     let jsonData = currentTranslation;
     let currentChapter = jsonData[bookNumber][chapterNumber];
 
-    // Combine chapter content into a single string
-    let chapterText = "";
+    // Create an array to store the verses
+    const verseComponents = [];
+
     for (const verseNumber in currentChapter) {
-      chapterText += `${verseNumber} ` + currentChapter[verseNumber] + "\n";
+      const verseText = currentChapter[verseNumber];
+      // Create a `Text` component for each verse
+      const verseComponent = (
+        <Text
+          key={verseIndex}
+          style={[
+            readerStyles.verse,
+            highlightedVerseIndex === verseIndex
+              ? { backgroundColor: "yellow" }
+              : null,
+          ]}
+          onPress={() => openHighlightMenu(verseIndex)}
+        >
+          <Text style={readerStyles.verseNumber}>{verseNumber} </Text>
+          {verseText} {"\n"}
+        </Text>
+      );
+      verseComponents.push(verseComponent);
     }
 
-    // Update the state with the chapter content
+    // Update the state with the verses
     setBookHeader(bookTitles.chapters[bookNumber].title);
-    setChapterContent(chapterText);
+    setChapterContent(verseComponents);
+
     // Save the current book and chapter
     _saveCurrentChapter(bookNumber, chapterNumber);
+  }
+
+  function openHighlightMenu(verseIndex) {
+    setHighlightedVerseIndex(verseIndex);
+    setHighLightMenuVisibility();
+    // Open the highlight menu here
   }
 
   function renderInitalBibleChapter() {
@@ -241,6 +269,7 @@ export default function MainReader() {
 
   function openTranslationInfo(translationName) {
     // select which translation from an OBJ and display information about that translation in a modal window
+    setTranslationInfoVisibility(!showTranslationInfoVisibility);
   }
 
   async function _saveCurrentChapter(bookNumber, chapterNumber) {
@@ -269,6 +298,13 @@ export default function MainReader() {
     return null;
   }
 
+  function highLightText(textColor) {
+    if (highlightedVerseIndex) {
+      // Apply the color to the highlighted verse
+      // You can store the highlighted text in your state or apply it directly to the component.
+    }
+  }
+
   return (
     <>
       <ScrollView ref={scrollViewRef} style={readerStyles.scrollView}>
@@ -293,20 +329,18 @@ export default function MainReader() {
               onPress={() => setTranslation(kjv, "KJV")}
               style={readerStyles.translationMenu}
             >
-              <Text style={readerStyles.infoFlex}>
-                <Text style={readerStyles.translationName}>KJV</Text>
-                {"\n"}
-                <Text style={readerStyles.expandedTranslationName}>
-                  The King James Version
-                </Text>
-                <Feather
-                  name="info"
-                  size={24}
-                  style={readerStyles.infoIcons}
-                  color="white"
-                  onPress={() => openTranslationInfo("KJV")}
-                />
+              <Text style={readerStyles.translationName}>KJV</Text>
+              {"\n"}
+              <Text style={readerStyles.expandedTranslationName}>
+                The King James Version
               </Text>
+              <Feather
+                name="info"
+                size={24}
+                style={readerStyles.infoIcons}
+                color="white"
+                onPress={() => openTranslationInfo("KJV")}
+              />
             </Text>
 
             <Text
@@ -319,14 +353,14 @@ export default function MainReader() {
                 <Text style={readerStyles.expandedTranslationName}>
                   The American Standard Version
                 </Text>
-                <Feather
-                  name="info"
-                  size={24}
-                  style={readerStyles.infoIcons}
-                  color="white"
-                  onPress={() => openTranslationInfo("KJV")}
-                />
               </Text>
+              <Feather
+                name="info"
+                size={24}
+                style={readerStyles.infoIcons}
+                color="white"
+                onPress={() => openTranslationInfo("KJV")}
+              />
             </Text>
 
             <Text
@@ -339,14 +373,14 @@ export default function MainReader() {
                 <Text style={readerStyles.expandedTranslationName}>
                   The Bible in Basic English
                 </Text>
-                <Feather
-                  name="info"
-                  size={24}
-                  style={readerStyles.infoIcons}
-                  color="white"
-                  onPress={() => openTranslationInfo("BBE")}
-                />
               </Text>
+              <Feather
+                name="info"
+                size={24}
+                style={readerStyles.infoIcons}
+                color="white"
+                onPress={() => openTranslationInfo("BBE")}
+              />
             </Text>
 
             <Text
@@ -359,14 +393,14 @@ export default function MainReader() {
                 <Text style={readerStyles.expandedTranslationName}>
                   The Word English Bible
                 </Text>
-                <Feather
-                  name="info"
-                  size={24}
-                  style={readerStyles.infoIcons}
-                  color="white"
-                  onPress={() => openTranslationInfo("WEB")}
-                />
               </Text>
+              <Feather
+                name="info"
+                size={24}
+                style={readerStyles.infoIcons}
+                color="white"
+                onPress={() => openTranslationInfo("WEB")}
+              />
             </Text>
 
             <Text
@@ -379,14 +413,14 @@ export default function MainReader() {
                 <Text style={readerStyles.expandedTranslationName}>
                   Young's Literal Translation
                 </Text>
-                <Feather
-                  name="info"
-                  size={24}
-                  style={readerStyles.infoIcons}
-                  color="white"
-                  onPress={() => openTranslationInfo("YLT")}
-                />
               </Text>
+              <Feather
+                name="info"
+                size={24}
+                style={readerStyles.infoIcons}
+                color="white"
+                onPress={() => openTranslationInfo("YLT")}
+              />
             </Text>
           </ScrollView>
         </Modal>
@@ -429,6 +463,14 @@ export default function MainReader() {
             )}
           </ScrollView>
         </Modal>
+        <Modal
+          transparent={true}
+          animationType="slide" // Add animationType to control the modal animation
+          style={readerStyles.modal}
+          visible={showTranslationInfoVisibility}
+        >
+          <Text></Text>
+        </Modal>
         <Text
           onPress={() => openTranslationModal()}
           style={readerStyles.translation}
@@ -439,6 +481,22 @@ export default function MainReader() {
         <Text style={readerStyles.chapterNumber}> {currentChapterState} </Text>
         <Text style={readerStyles.text}> {chapterContent} </Text>
       </ScrollView>
+
+      <View style={readerStyles.highLightMenu}>
+        <Text style={readerStyles.highLightHeader}>Highlight Text {"\n"}</Text>
+        <View style={readerStyles.highLightColorFlex}>
+          <Text
+            style={readerStyles.highLightYellow}
+            onPress={highLightText("yellow")}
+          >
+            {" "}
+          </Text>
+          <Text style={readerStyles.highLightBlue}> </Text>
+          <Text style={readerStyles.highLightGreen}> </Text>
+          <Text style={readerStyles.highLightOrange}> </Text>
+          <Text style={readerStyles.highLightPurple}> </Text>
+        </View>
+      </View>
 
       <BottomNavigation
         bookHeader={bookHeader}
@@ -460,6 +518,61 @@ const readerStyles = StyleSheet.create({
     paddingTop: 10,
     paddingTop: StatusBar.currentHeight,
   },
+  highLightMenu: {
+    flex: 1,
+    margin: 0,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 15,
+    paddingTop: 10,
+  },
+  highLightColorFlex: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  highLightHeader: {
+    textAlign: "center",
+    fontSize: 35,
+    fontWeight: "bold",
+    color: "white",
+  },
+  highLightYellow: {
+    width: 35,
+    marginHorizontal: 5,
+    borderRadius: 5,
+    height: 35,
+    backgroundColor: "yellow",
+  },
+  highLightBlue: {
+    width: 35,
+    marginHorizontal: 5,
+    borderRadius: 5,
+    height: 35,
+    backgroundColor: "blue",
+  },
+  highLightGreen: {
+    width: 35,
+    marginHorizontal: 5,
+    borderRadius: 5,
+    height: 35,
+    backgroundColor: "green",
+  },
+  highLightOrange: {
+    width: 35,
+    marginHorizontal: 5,
+    borderRadius: 5,
+    height: 35,
+    backgroundColor: "orange",
+  },
+  highLightPurple: {
+    width: 35,
+    marginHorizontal: 5,
+    borderRadius: 5,
+    height: 35,
+    backgroundColor: "purple",
+  },
   versionsHeader: {
     alignItems: "center", // Center text horizontally
     justifyContent: "center", // Center text vertically
@@ -475,14 +588,10 @@ const readerStyles = StyleSheet.create({
     paddingBottom: 25,
   },
   infoFlex: {
-    flex: 1, // Add flex to center content vertically
-    flexDirection: "row", // Add flexDirection to align items horizontally
-    alignItems: "center", // Center text horizontally
-    justifyContent: "center", // Center text vertically
+    paddingHorizontal: 15,
   },
   infoIcons: {
-    textAlign: "right",
-    alignSelf: "flex-end",
+    textAlign: "center",
   },
   container: {
     display: "flex",
@@ -540,8 +649,10 @@ const readerStyles = StyleSheet.create({
     fontSize: 15,
   },
   translationMenu: {
-    width: "100%",
+    flexDirection: "column",
+    alignItems: "center",
     justifyContent: "space-between",
+    width: "100%",
     fontSize: 25,
     padding: 15,
     color: "white",
