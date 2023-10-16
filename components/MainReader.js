@@ -30,7 +30,9 @@ export default function MainReader() {
   const [selectedBook, setSelectedBook] = useState(null);
   const [showTranslationInfoVisibility, setTranslationInfoVisibility] =
     useState(false);
+  const [highlightMenuVisibility, setHighlightMenuVisibility] = useState(false);
   const [highlightedVerseIndex, setHighlightedVerseIndex] = useState(null);
+  const [highlightedVerses, setHighlightedVerses] = useState({});
   const scrollViewRef = useRef(); // Create a ref for the main ScrollView
 
   const bibleBooks = [
@@ -132,14 +134,20 @@ export default function MainReader() {
       // Create a `Text` component for each verse
       const verseComponent = (
         <Text
-          key={verseIndex}
+          key={verseNumber}
           style={[
             readerStyles.verse,
-            highlightedVerseIndex === verseIndex
-              ? { backgroundColor: "yellow" }
-              : null,
+            {
+              backgroundColor:
+                highlightedVerses[currentChapterBook] &&
+                highlightedVerses[currentChapterBook][currentChapterState]
+                  ?.verseNumber === verseNumber
+                  ? highlightedVerses[currentChapterBook][currentChapterState]
+                      ?.color
+                  : "transparent",
+            },
           ]}
-          onPress={() => openHighlightMenu(verseIndex)}
+          onPress={() => openHighlightMenu(verseNumber)}
         >
           <Text style={readerStyles.verseNumber}>{verseNumber} </Text>
           {verseText} {"\n"}
@@ -156,10 +164,18 @@ export default function MainReader() {
     _saveCurrentChapter(bookNumber, chapterNumber);
   }
 
-  function openHighlightMenu(verseIndex) {
-    setHighlightedVerseIndex(verseIndex);
-    setHighLightMenuVisibility();
-    // Open the highlight menu here
+  function openHighlightMenu(verseNumber) {
+    // Toggle the visibility of the highlight menu
+    setHighlightMenuVisibility(!highlightMenuVisibility);
+
+    // Update the highlightedVerses state to mark the verse as highlighted
+    setHighlightedVerses((prevHighlightedVerses) => ({
+      ...prevHighlightedVerses,
+      [currentChapterBook]: {
+        ...prevHighlightedVerses[currentChapterBook],
+        [currentChapterState]: verseNumber,
+      },
+    }));
   }
 
   function renderInitalBibleChapter() {
@@ -298,13 +314,25 @@ export default function MainReader() {
     return null;
   }
 
+  
   function highLightText(textColor) {
     if (highlightedVerseIndex) {
-      // Apply the color to the highlighted verse
-      // You can store the highlighted text in your state or apply it directly to the component.
+      const updatedHighlightedVerses = {
+        ...highlightedVerses,
+        [currentChapterBook]: {
+          ...highlightedVerses[currentChapterBook],
+          [currentChapterState]: {
+            verseNumber: highlightedVerseIndex,
+            color: textColor,
+          },
+        },
+      };
+  
+      setHighlightMenuVisibility(false);
+      setHighlightedVerses(updatedHighlightedVerses);
     }
   }
-
+  
   return (
     <>
       <ScrollView ref={scrollViewRef} style={readerStyles.scrollView}>
@@ -482,21 +510,39 @@ export default function MainReader() {
         <Text style={readerStyles.text}> {chapterContent} </Text>
       </ScrollView>
 
-      <View style={readerStyles.highLightMenu}>
-        <Text style={readerStyles.highLightHeader}>Highlight Text {"\n"}</Text>
-        <View style={readerStyles.highLightColorFlex}>
-          <Text
-            style={readerStyles.highLightYellow}
-            onPress={highLightText("yellow")}
-          >
-            {" "}
+      <Modal
+        visible={highlightMenuVisibility}
+        transparent={true}
+        style={readerStyles.highLightMenu}
+      >
+        <View style={readerStyles.highLightContent}>
+          <Text style={readerStyles.highLightHeader}>
+            Highlight Text {"\n"}
           </Text>
-          <Text style={readerStyles.highLightBlue}> </Text>
-          <Text style={readerStyles.highLightGreen}> </Text>
-          <Text style={readerStyles.highLightOrange}> </Text>
-          <Text style={readerStyles.highLightPurple}> </Text>
+          <View style={readerStyles.highLightColorFlex}>
+            <Text
+              style={readerStyles.highLightYellow}
+              onPress={() => highLightText("yellow")}
+            />
+            <Text
+              style={readerStyles.highLightBlue}
+              onPress={() => highLightText("blue")}
+            />
+            <Text
+              style={readerStyles.highLightGreen}
+              onPress={() => highLightText("green")}
+            />
+            <Text
+              style={readerStyles.highLightOrange}
+              onPress={() => highLightText("orange")}
+            />
+            <Text
+              style={readerStyles.highLightPurple}
+              onPress={() => highLightText("purple")}
+            />
+          </View>
         </View>
-      </View>
+      </Modal>
 
       <BottomNavigation
         bookHeader={bookHeader}
@@ -519,13 +565,20 @@ const readerStyles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
   },
   highLightMenu: {
-    flex: 1,
+    backgroundColor: "gray", // Set the background color to gray
     margin: 0,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
-    padding: 15,
-    paddingTop: 10,
+    justifyContent: "flex-end", // Adjust the content to the bottom of the screen
+    height: "50%", // Set the height to 50% of the screen
+  },
+  highLightContent: {
+    backgroundColor: "gray", // Set the background color of the content
+    height: "50%", // Set the height to 50% of the screen
+    justifyContent: "center", // Align content to the bottom
+    position: "absolute",
+    top: "50%",
+    width: "100%",
   },
   highLightColorFlex: {
     flexDirection: "row",
