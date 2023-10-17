@@ -35,6 +35,8 @@ export default function MainReader() {
   const [highlightedVerses, setHighlightedVerses] = useState({});
   const scrollViewRef = useRef(); // Create a ref for the main ScrollView
 
+  
+  
   const bibleBooks = [
     "Genesis",
     "Exodus",
@@ -131,20 +133,31 @@ export default function MainReader() {
 
     for (const verseNumber in currentChapter) {
       const verseText = currentChapter[verseNumber];
-      // Create a `Text` component for each verse
+
+      // Determine if the verse is highlighted
+      const isHighlighted =
+        highlightedVerses[bookNumber] &&
+        highlightedVerses[bookNumber][chapterNumber] &&
+        Array.isArray(highlightedVerses[bookNumber][chapterNumber]) &&
+        highlightedVerses[bookNumber][chapterNumber].some(
+          (verse) => verse.verseNumber === verseNumber
+        );
+
+      // Create a `Text` component for each verse with the appropriate style
       const verseComponent = (
         <Text
           key={verseNumber}
           style={[
             readerStyles.verse,
             {
-              backgroundColor:
-                highlightedVerses[currentChapterBook] &&
-                highlightedVerses[currentChapterBook][currentChapterState]
-                  ?.verseNumber === verseNumber
-                  ? highlightedVerses[currentChapterBook][currentChapterState]
-                      ?.color
-                  : "transparent",
+              backgroundColor: isHighlighted
+                ? highlightedVerses[bookNumber][chapterNumber][0]
+                    .verseNumber === verseNumber
+                  ? highlightedVerses[bookNumber][chapterNumber][0].color // Use the color of the first highlighted verse
+                  : highlightedVerses[bookNumber]?.[chapterNumber][
+                      currentChapterState
+                    ]?.color // Use the textColor passed to the function
+                : "transparent",
             },
           ]}
           onPress={() => openHighlightMenu(verseNumber)}
@@ -167,7 +180,7 @@ export default function MainReader() {
   function openHighlightMenu(verseNumber) {
     // Toggle the visibility of the highlight menu
     setHighlightMenuVisibility(!highlightMenuVisibility);
-
+    setHighlightedVerseIndex(verseNumber);
     // Update the highlightedVerses state to mark the verse as highlighted
     setHighlightedVerses((prevHighlightedVerses) => ({
       ...prevHighlightedVerses,
@@ -314,22 +327,27 @@ export default function MainReader() {
     return null;
   }
 
-  
   function highLightText(textColor) {
     if (highlightedVerseIndex) {
       const updatedHighlightedVerses = {
         ...highlightedVerses,
         [currentChapterBook]: {
           ...highlightedVerses[currentChapterBook],
-          [currentChapterState]: {
-            verseNumber: highlightedVerseIndex,
-            color: textColor,
-          },
+          [currentChapterState]: [
+            ...(highlightedVerses[currentChapterBook] &&
+            highlightedVerses[currentChapterBook][currentChapterState]
+              ? highlightedVerses[currentChapterBook][currentChapterState]
+              : []),
+            {
+              verseNumber: highlightedVerseIndex,
+              color: textColor, // Use the provided textColor
+            },
+          ],
         },
       };
-  
-      setHighlightMenuVisibility(false);
+
       setHighlightedVerses(updatedHighlightedVerses);
+      setHighlightMenuVisibility(false);
     }
   }
   
