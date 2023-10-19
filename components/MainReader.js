@@ -32,11 +32,9 @@ export default function MainReader() {
     useState(false);
   const [highlightMenuVisibility, setHighlightMenuVisibility] = useState(false);
   const [highlightedVerseIndex, setHighlightedVerseIndex] = useState(null);
-  const [highlightedVerses, setHighlightedVerses] = useState({});
+  const [highlightedVerses, setHighlightedVerses] = useState([]);
   const scrollViewRef = useRef(); // Create a ref for the main ScrollView
 
-  
-  
   const bibleBooks = [
     "Genesis",
     "Exodus",
@@ -107,6 +105,36 @@ export default function MainReader() {
   ];
 
   useEffect(() => {
+    // Load highlighted verses when the app starts
+    _loadHighlightedVerses();
+  }, []);
+
+  async function saveHighlightedVerses() {
+    try {
+      await AsyncStorage.setItem(
+        "highlightedVerses",
+        JSON.stringify(highlightedVerses)
+      );
+    } catch (error) {
+      console.error("Error saving highlighted verses:", error);
+    }
+  }
+
+  async function _loadHighlightedVerses() {
+    try {
+      const highlightedVersesData = await AsyncStorage.getItem(
+        "highlightedVerses"
+      );
+      if (highlightedVersesData) {
+        const parsedHighlightedVerses = JSON.parse(highlightedVersesData);
+        setHighlightedVerses(parsedHighlightedVerses);
+      }
+    } catch (error) {
+      console.error("Error loading highlighted verses:", error);
+    }
+  }
+
+  useEffect(() => {
     renderInitalBibleChapter();
   }, []); // Empty dependency array means it will run only once on initial render
 
@@ -125,25 +153,22 @@ export default function MainReader() {
   function fetchBibleContent(bookNumber, chapterNumber) {
     setCurrentChapterBook(bookNumber);
     setCurrentChapterState(chapterNumber);
-    let jsonData = currentTranslation;
-    let currentChapter = jsonData[bookNumber][chapterNumber];
+    const jsonData = currentTranslation;
+    const currentChapter = jsonData[bookNumber][chapterNumber];
 
-    // Create an array to store the verses
     const verseComponents = [];
 
     for (const verseNumber in currentChapter) {
       const verseText = currentChapter[verseNumber];
 
-      // Determine if the verse is highlighted
-      const isHighlighted =
-        highlightedVerses[bookNumber] &&
-        highlightedVerses[bookNumber][chapterNumber] &&
-        Array.isArray(highlightedVerses[bookNumber][chapterNumber]) &&
-        highlightedVerses[bookNumber][chapterNumber].some(
+      // Check if the verse is highlighted
+      let isHighlighted = false;
+      if (highlightedVerses) {
+        isHighlighted = highlightedVerses.find(
           (verse) => verse.verseNumber === verseNumber
         );
+      }
 
-      // Create a `Text` component for each verse with the appropriate style
       const verseComponent = (
         <Text
           key={verseNumber}
@@ -151,12 +176,7 @@ export default function MainReader() {
             readerStyles.verse,
             {
               backgroundColor: isHighlighted
-                ? highlightedVerses[bookNumber][chapterNumber][0]
-                    .verseNumber === verseNumber
-                  ? highlightedVerses[bookNumber][chapterNumber][0].color // Use the color of the first highlighted verse
-                  : highlightedVerses[bookNumber]?.[chapterNumber][
-                      currentChapterState
-                    ]?.color // Use the textColor passed to the function
+                ? isHighlighted.color
                 : "transparent",
             },
           ]}
@@ -169,26 +189,42 @@ export default function MainReader() {
       verseComponents.push(verseComponent);
     }
 
-    // Update the state with the verses
     setBookHeader(bookTitles.chapters[bookNumber].title);
     setChapterContent(verseComponents);
 
-    // Save the current book and chapter
     _saveCurrentChapter(bookNumber, chapterNumber);
   }
 
-  function openHighlightMenu(verseNumber) {
+  function openHighlightMenu(verseNumber, color) {
     // Toggle the visibility of the highlight menu
     setHighlightMenuVisibility(!highlightMenuVisibility);
     setHighlightedVerseIndex(verseNumber);
-    // Update the highlightedVerses state to mark the verse as highlighted
-    setHighlightedVerses((prevHighlightedVerses) => ({
-      ...prevHighlightedVerses,
-      [currentChapterBook]: {
-        ...prevHighlightedVerses[currentChapterBook],
-        [currentChapterState]: verseNumber,
-      },
-    }));
+
+    setHighlightedVerses((prevHighlightedVerses) => {
+      const currentBookVerses = prevHighlightedVerses[currentChapterBook] || {};
+      const currentChapterVerses = currentBookVerses[currentChapterState] || [];
+
+      // If the verse is already highlighted, update its color
+      const updatedVerses = currentChapterVerses.map((verse) => {
+        if (verse.verseNumber === verseNumber) {
+          return { verseNumber, color };
+        }
+        return verse;
+      });
+
+      // If the verse is not yet highlighted, add it
+      if (!updatedVerses.some((verse) => verse.verseNumber === verseNumber)) {
+        updatedVerses.push({ verseNumber, color });
+      }
+
+      return {
+        ...prevHighlightedVerses,
+        [currentChapterBook]: {
+          ...currentBookVerses,
+          [currentChapterState]: updatedVerses,
+        },
+      };
+    });
   }
 
   function renderInitalBibleChapter() {
@@ -327,30 +363,29 @@ export default function MainReader() {
     return null;
   }
 
-  function highLightText(textColor) {
-    if (highlightedVerseIndex) {
-      const updatedHighlightedVerses = {
-        ...highlightedVerses,
-        [currentChapterBook]: {
-          ...highlightedVerses[currentChapterBook],
-          [currentChapterState]: [
-            ...(highlightedVerses[currentChapterBook] &&
-            highlightedVerses[currentChapterBook][currentChapterState]
-              ? highlightedVerses[currentChapterBook][currentChapterState]
-              : []),
-            {
-              verseNumber: highlightedVerseIndex,
-              color: textColor, // Use the provided textColor
-            },
-          ],
-        },
-      };
+  function highlightVerse(verseNumber, color) {
+    const updatedHighlightedVerses = [...highlightedVerses];
+    const existingHighlight = updatedHighlightedVerses.find(
+      (verse) => verse.verseNumber === verseNumber
+    );
 
-      setHighlightedVerses(updatedHighlightedVerses);
-      setHighlightMenuVisibility(false);
+    if (existingHighlight) {
+      // Update the color of an existing highlight
+      existingHighlight.color = color;
+    } else {
+      // Add a new highlight
+      updatedHighlightedVerses.push({ verseNumber, color });
     }
+
+    setHighlightedVerses(updatedHighlightedVerses);
+    saveHighlightedVerses();
+    closeHighlightMenu();
   }
-  
+
+  function closeHighlightMenu() {
+    setHighlightMenuVisibility(false);
+  }
+
   return (
     <>
       <ScrollView ref={scrollViewRef} style={readerStyles.scrollView}>
@@ -540,23 +575,23 @@ export default function MainReader() {
           <View style={readerStyles.highLightColorFlex}>
             <Text
               style={readerStyles.highLightYellow}
-              onPress={() => highLightText("yellow")}
+              onPress={() => highlightVerse(highlightedVerseIndex, "yellow")}
             />
             <Text
               style={readerStyles.highLightBlue}
-              onPress={() => highLightText("blue")}
+              onPress={() => highlightVerse(highlightedVerseIndex, "blue")}
             />
             <Text
               style={readerStyles.highLightGreen}
-              onPress={() => highLightText("green")}
+              onPress={() => highlightVerse(highlightedVerseIndex, "green")}
             />
             <Text
               style={readerStyles.highLightOrange}
-              onPress={() => highLightText("orange")}
+              onPress={() => highlightVerse(highlightedVerseIndex, "orange")}
             />
             <Text
               style={readerStyles.highLightPurple}
-              onPress={() => highLightText("purple")}
+              onPress={() => highlightVerse(highlightedVerseIndex, "purple")}
             />
           </View>
         </View>
