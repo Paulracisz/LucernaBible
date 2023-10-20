@@ -74,6 +74,7 @@ const navStyles = StyleSheet.create({
     justifyContent: "center",
     fontWeight: "bold",
   },
+
   navText: {
     color: "#ffffff",
     backgroundColor: "gray",

@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import BottomNavigation from "./BottomNavigation";
+import NavBar from "./NavBar";
 import * as kjv from "../assets/assets/bibles/kjv_new.json";
 import * as asv from "../assets/assets/bibles/asv_new.json";
 import * as bbe from "../assets/assets/bibles/bbe_new.json";
@@ -33,6 +34,7 @@ export default function MainReader() {
   const [highlightMenuVisibility, setHighlightMenuVisibility] = useState(false);
   const [highlightedVerseIndex, setHighlightedVerseIndex] = useState(null);
   const [highlightedVerses, setHighlightedVerses] = useState([]);
+  const [bookMarks, setBookmark] = useState([]);
   const scrollViewRef = useRef(); // Create a ref for the main ScrollView
 
   const bibleBooks = [
@@ -604,6 +606,7 @@ export default function MainReader() {
         decrementChapter={decrementChapter}
         openBookMenu={openBookMenu}
       />
+      <NavBar />
     </>
   );
 }
