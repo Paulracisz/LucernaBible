@@ -6,6 +6,7 @@ import {
     StatusBar,
     Modal,
     View,
+    useWindowDimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Feather } from "@expo/vector-icons";
@@ -40,6 +41,7 @@ export default function MainReader() {
         dispatch(getBook("../EPUBbooks/pg10-images-3.epub"))
         console.log(book)
     }, [])
+    const { height, width } = useWindowDimensions()
 
 
 
@@ -465,8 +467,18 @@ export default function MainReader() {
     //    );
     //}
     return (
-        <Text> "Main reader"</Text>
+        <View>
+            <Reader
+                src={book}
+                height={height}
+                widht={width}
+                fileSystem={useFileSystem}
+            >
+
+            </Reader>
+        </View>
     )
+
 }
 
 const readerStyles = StyleSheet.create({

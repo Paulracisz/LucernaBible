@@ -17,7 +17,7 @@ export const BookSlice = createSlice({
     reducers: {
         getBook: (state, action: PayloadAction<string>) => {
             // get book logic goes here 
-            // this import isnt working, Maybe try EPUB files instead of JSON 
+            // This sets the book url to load the EPUB file. 
             state.bookUrl = action.payload
         }
     },
