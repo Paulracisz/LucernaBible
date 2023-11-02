@@ -8,10 +8,6 @@ import {
     View,
     useWindowDimensions,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Feather } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
-import BottomNavigation from "./BottomNavigation";
 import kjv from "../assets/assets/bibles/kjv_new.json";
 import * as asv from "../assets/assets/bibles/asv_new.json";
 import * as bbe from "../assets/assets/bibles/bbe_new.json";
