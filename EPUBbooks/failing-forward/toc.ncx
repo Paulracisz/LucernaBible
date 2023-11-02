@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="ara">
+  <head>
+    <meta content="50426490-26fc-4c33-9ab4-e3f6137f2f89" name="dtb:uid"/>
+    <meta content="3" name="dtb:depth"/>
+    <meta content="calibre (3.28.0)" name="dtb:generator"/>
+    <meta content="0" name="dtb:totalPageCount"/>
+    <meta content="0" name="dtb:maxPageNumber"/>
+  </head>
+  <docTitle>
+    <text>9780785274308</text>
+  </docTitle>
+  <navMap>
+    <navPoint class="chapter" id="num_1" playOrder="1">
+      <navLabel>
+        <text>Title Page</text>
+      </navLabel>
+      <content src="index_split_000.html#p2"/>
+    </navPoint>
+    <navPoint class="chapter" id="num_2" playOrder="2">
+      <navLabel>
+        <text>Dedication</text>
+      </navLabel>
+      <content src="index_split_000.html#p3"/>
+    </navPoint>
+    <navPoint class="chapter" id="num_3" playOrder="3">
+      <navLabel>
+        <text>Copyright Page</text>
+      </navLabel>
+      <content src="index_split_000.html#p4"/>
+    </navPoint>
+    <navPoint class="chapter" id="num_4" playOrder="4">
+      <navLabel>
+        <text>Contents</text>
+      </navLabel>
+      <content src="index_split_000.html#p7"/>
+    </navPoint>
+    <navPoint class="chapter" id="num_5" playOrder="5">
+      <navLabel>
+        <text>Preface: Becoming a REAL Success</text>
+      </navLabel>
+      <content src="index_split_000.html#p11"/>
+    </navPoint>
+    <navPoint class="chapter" id="num_6" playOrder="6">
+      <navLabel>
+        <text>1. What's the Main Difference Between People Who Achieve and People Who Are Average?</text>
+      </navLabel>
+      <content src="index_split_000.html#p13"/>
+    </navPoint>
+    <navPoint class="chapter" id="num_7" playOrder="7">
+      <navLabel>
+        <text>Redefining Failure and Success</text>
+      </navLabel>
+      <content src="index_split_000.html#p24"/>
+      <navPoint class="chapter" id="num_8" playOrder="8">
+        <navLabel>
+          <text>2. Get a New Definition of Failure and Success</text>
+        </navLabel>
+        <content src="index_split_000.html#p25"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_9" playOrder="9">
+        <navLabel>
+          <text>3. If You've Failed, Are You a Failure?</text>
+        </navLabel>
+        <content src="index_split_000.html#p40"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_10" playOrder="10">
+        <navLabel>
+          <text>4. You're Too Old to Cry, but It Hurts Too Much to Laugh</text>
+        </navLabel>
+        <content src="index_split_000.html#p55"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_11" playOrder="11">
+        <navLabel>
+          <text>5. Find the Exit Off the Failure Freeway</text>
+        </navLabel>
+        <content src="index_split_000.html#p69"/>
+      </navPoint>
+    </navPoint>
+    <navPoint class="chapter" id="num_12" playOrder="12">
+      <navLabel>
+        <text>Do You Mind Changing Your Mind?</text>
+      </navLabel>
+      <content src="index_split_001.html#p83"/>
+      <navPoint class="chapter" id="num_13" playOrder="13">
+        <navLabel>
+          <text>6. No Matter What Happens to You, Failure Is an Inside Job</text>
+        </navLabel>
+        <content src="index_split_001.html#p84"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_14" playOrder="14">
+        <navLabel>
+          <text>7. Is the Past Holding Your Life Hostage?</text>
+        </navLabel>
+        <content src="index_split_001.html#p100"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_15" playOrder="15">
+        <navLabel>
+          <text>8. Who Is This Person Making These Mistakes?</text>
+        </navLabel>
+        <content src="index_split_001.html#p116"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_16" playOrder="16">
+        <navLabel>
+          <text>9. Get Over Yourself —Everyone Else Has</text>
+        </navLabel>
+        <content src="index_split_001.html#p133"/>
+      </navPoint>
+    </navPoint>
+    <navPoint class="chapter" id="num_17" playOrder="17">
+      <navLabel>
+        <text>Embracing Failure As a Friend</text>
+      </navLabel>
+      <content src="index_split_002.html#p148"/>
+      <navPoint class="chapter" id="num_18" playOrder="18">
+        <navLabel>
+          <text>10. Grasp the Positive Benefits of Negative Experiences</text>
+        </navLabel>
+        <content src="index_split_002.html#p149"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_19" playOrder="19">
+        <navLabel>
+          <text>11. Take a Risk—There's No Other Way to Fail Forward</text>
+        </navLabel>
+        <content src="index_split_002.html#p162"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_20" playOrder="20">
+        <navLabel>
+          <text>12. Make Failure Your Best Friend</text>
+        </navLabel>
+        <content src="index_split_002.html#p180"/>
+      </navPoint>
+    </navPoint>
+    <navPoint class="chapter" id="num_21" playOrder="21">
+      <navLabel>
+        <text>Increasing Your Odds for Success</text>
+      </navLabel>
+      <content src="index_split_002.html#p196"/>
+      <navPoint class="chapter" id="num_22" playOrder="22">
+        <navLabel>
+          <text>13. Avoid the Top Ten Reasons People Fail</text>
+        </navLabel>
+        <content src="index_split_002.html#p197"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_23" playOrder="23">
+        <navLabel>
+          <text>14. The Little Difference Between Failure and Success Makes a Big Difference</text>
+        </navLabel>
+        <content src="index_split_003.html#p214"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_24" playOrder="24">
+        <navLabel>
+          <text>15. It's What You Do After You Get Back Up That Counts</text>
+        </navLabel>
+        <content src="index_split_003.html#p229"/>
+      </navPoint>
+      <navPoint class="chapter" id="num_25" playOrder="25">
+        <navLabel>
+          <text>16. Now You're Ready to Fail Forward</text>
+        </navLabel>
+        <content src="index_split_003.html#p244"/>
+      </navPoint>
+    </navPoint>
+    <navPoint class="chapter" id="num_26" playOrder="26">
+      <navLabel>
+        <text>Notes</text>
+      </navLabel>
+      <content src="index_split_003.html#p261"/>
+    </navPoint>
+    <navPoint class="chapter" id="num_27" playOrder="27">
+      <navLabel>
+        <text>About the Author</text>
+      </navLabel>
+      <content src="index_split_003.html#p277"/>
+    </navPoint>
+  </navMap>
+</ncx>

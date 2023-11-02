@@ -21,7 +21,7 @@ import * as bookTitles from "../assets/assets/chapterKeys.json";
 import { getBook } from "../state/reducers/booksReducer";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { Reader } from "@epubjs-react-native/core";
-
+import { useFileSystem } from "@epubjs-react-native/expo-file-system"
 
 
 export default function MainReader() {
@@ -35,14 +35,14 @@ export default function MainReader() {
     const [showBookMenu, setBookMenuVisibility] = useState(false);
     const [selectedBook, setSelectedBook] = useState(null);
     const scrollViewRef = useRef(); // Create a ref for the main ScrollView
-    const book = useAppSelector((state) => state.book.bookUrl)
+    //    const book = useAppSelector((state) => state.book.bookUrl)
+    const book = "../EPUBbooks/pg10-images-3.epub"
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(getBook("../EPUBbooks/pg10-images-3.epub"))
         console.log(book)
     }, [])
     const { height, width } = useWindowDimensions()
-
 
 
     //  const bibleBooks = [
@@ -468,10 +468,11 @@ export default function MainReader() {
     //}
     return (
         <View>
+            {/*@ts-ignore*/}
             <Reader
-                src={book}
+                src="https://s3.amazonaws.com/moby-dick/OPS/package.opf"
                 height={height}
-                widht={width}
+                width={width}
                 fileSystem={useFileSystem}
             >
 
