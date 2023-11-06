@@ -16,13 +16,6 @@ import { useDispatch } from "react-redux";
 
 export default function MainReader() {
     const { addMark, getCurrentLocation } = useReader()
-    // const book = FileSystem.getContentUriAsync(FileSystem.documentDirectory + "EPUBbooks/pg10-images-3.epub")
-    //     .then(uri => {
-    //         console.log(uri, "Line 20: MainReader.tsx")
-    //         console.log(typeof uri, "Line 21: MainReader.tsx")
-    //         return uri
-
-    //     })
     //  -------------------------------------------------------------------------------------
     //  |              TO DO:                                                               |
     //  | 1.) Fetch Book from Resolver, need to resolve promise to pass File System String  |
@@ -31,8 +24,7 @@ export default function MainReader() {
     //  |                                                                                   |
     //  |                                                                                   |
     //  -------------------------------------------------------------------------------------
-    //
-    //
+
     const { height, width } = useWindowDimensions()
 
 
@@ -40,18 +32,16 @@ export default function MainReader() {
         <View style={{ marginTop: 25 }}>
             {/*@ts-ignore*/}
             <Reader
-                src={book}
+                src={"book"}
                 height={height * 0.9}
                 width={width}
                 fileSystem={useFileSystem}
                 onPress={() => {
                     const location = getCurrentLocation()
-                    console.log(location.start.cfi, location.end.cfi)
                     addMark("highlight", location.start.cfi)
 
                 }}
                 onSelected={(text) => {
-                    console.log(text)
                     Alert.alert("Some Text has been Selected")
                 }}
 
