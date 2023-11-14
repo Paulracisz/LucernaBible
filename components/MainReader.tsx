@@ -2,9 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import {
     StyleSheet,
     StatusBar,
+    Text,
     View,
     useWindowDimensions,
     Alert,
+    SafeAreaView,
+    TouchableOpacity,
 } from "react-native";
 import kjv from "../assets/assets/bibles/kjv_new.json";
 import { getBook } from "../state/reducers/booksReducer";
@@ -13,9 +16,15 @@ import { Reader, useReader } from "@epubjs-react-native/core";
 import { useFileSystem } from "@epubjs-react-native/expo-file-system"
 import * as FileSystem from "expo-file-system"
 import { useDispatch } from "react-redux";
+import * as DocumentPicker from "expo-document-picker"
+
+
 
 export default function MainReader() {
     const { addMark, getCurrentLocation } = useReader()
+    const [bookUri, setBookUri] = useState<string | null>(null)
+    const book = useAppSelector(state => state.book.bookUrl)
+    const [booksrc, setBookSrc] = useState<any>()
     //  -------------------------------------------------------------------------------------
     //  |              TO DO:                                                               |
     //  | 1.) Fetch Book from Resolver, need to resolve promise to pass File System String  |
@@ -24,34 +33,57 @@ export default function MainReader() {
     //  |                                                                                   |
     //  |                                                                                   |
     //  -------------------------------------------------------------------------------------
+    async function pickBook() {
+        const fileCopyUri = await DocumentPicker.getDocumentAsync()
+        console.log(fileCopyUri.assets[0].uri)
+        const bookSrc = await FileSystem.readAsStringAsync(fileCopyUri.assets[0].uri, { encoding: "base64" })
+        setBookSrc(bookSrc)
+        setBookUri(fileCopyUri.assets[0].uri)
 
+
+    }
     const { height, width } = useWindowDimensions()
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(getBook("https://s3.amazonaws.com/moby-dick/OPS/package.opf"))
+    }, [])
 
+    if (booksrc) {
+        return (
+            <View style={{ marginTop: 25 }}>
+                {/*@ts-ignore*/}
+                <Reader
+                    src={booksrc}
+                    height={height * 0.9}
+                    width={width}
+                    fileSystem={useFileSystem}
+                    onPress={() => {
+                        const location = getCurrentLocation()
+                        addMark("highlight", location.start.cfi)
 
-    return (
-        <View style={{ marginTop: 25 }}>
-            {/*@ts-ignore*/}
-            <Reader
-                src={"book"}
-                height={height * 0.9}
-                width={width}
-                fileSystem={useFileSystem}
-                onPress={() => {
-                    const location = getCurrentLocation()
-                    addMark("highlight", location.start.cfi)
+                    }}
+                    onSelected={(text) => {
+                        Alert.alert("Some Text has been Selected")
+                    }}
 
-                }}
-                onSelected={(text) => {
-                    Alert.alert("Some Text has been Selected")
-                }}
+                >
 
-            >
-
-            </Reader>
-        </View>
-    )
+                </Reader>
+            </View>
+        )
+    } else {
+        return (
+            <SafeAreaView>
+                <TouchableOpacity onPress={() => pickBook()}>
+                    <Text style={{ display: "flex", alignSelf: "center", justifyContent: "center" }}>Pick Book</Text>
+                </TouchableOpacity>
+            </SafeAreaView>
+        )
+    }
 
 }
+
+
 
 const readerStyles = StyleSheet.create({
     scrollView: {

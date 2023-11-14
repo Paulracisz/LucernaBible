@@ -4,7 +4,7 @@ import MainReader from "./components/MainReader";
 import { Provider } from 'react-redux';
 import { store } from './state/store';
 import { Reader, ReaderProvider } from "@epubjs-react-native/core"
-
+import { Formats } from "./components/BookPicker"
 
 export default function App() {
     return (
